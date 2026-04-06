@@ -152,6 +152,13 @@
     if (presentMode) { presentMode.style.display = 'none'; presentMode.hidden = true; }
     if (qaMode) { qaMode.hidden = false; qaMode.style.display = ''; }
 
+    // 샘플 데이터 제거 (기안84 HTML placeholder)
+    var qaMessages = document.getElementById('qaMessages');
+    if (qaMessages) {
+      var samples = qaMessages.querySelectorAll('.qa-msg--audience, .qa-msg--learner');
+      samples.forEach(function (el) { el.remove(); });
+    }
+
     showToast('AI \uCCAD\uC911 Q&A\uAC00 \uC2DC\uC791\uB429\uB2C8\uB2E4.', 'info');
   }
 
