@@ -149,8 +149,8 @@
 
     var presentMode = document.getElementById('presentationMode');
     var qaMode = document.getElementById('qaMode');
-    if (presentMode) presentMode.style.display = 'none';
-    if (qaMode) qaMode.style.display = '';
+    if (presentMode) { presentMode.style.display = 'none'; presentMode.hidden = true; }
+    if (qaMode) { qaMode.hidden = false; qaMode.style.display = ''; }
 
     showToast('AI \uCCAD\uC911 Q&A\uAC00 \uC2DC\uC791\uB429\uB2C8\uB2E4.', 'info');
   }
@@ -262,7 +262,7 @@
     var recordBtn = document.getElementById('recordBtn');
     var stopBtn = document.getElementById('stopBtn');
     var reRecordBtn = document.getElementById('reRecordBtn');
-    var qaSubmit = document.getElementById('qaSubmitBtn');
+    var qaSubmit = document.getElementById('qaSendBtn');
     var qaInput = document.getElementById('qaInput');
     var endBtn = document.getElementById('endQaBtn');
 
