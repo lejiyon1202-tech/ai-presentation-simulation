@@ -259,7 +259,28 @@
       samples.forEach(function (el) { el.remove(); });
     }
 
-    showToast('AI 청중 Q&A가 시작됩니다. 질문에 답변해주세요.', 'info');
+    showToast('AI 청중 Q&A가 시작됩니다.', 'info');
+
+    // AI 청중 첫 질문 자동 생성
+    fetchFirstQuestion();
+  }
+
+  function fetchFirstQuestion() {
+    fetch('/api/sessions/' + state.sessionId + '/qa', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: '(발표 완료 — AI 청중 첫 질문 요청)' }),
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      if (data.aiResponse) {
+        appendQAMessage('audience', data.aiResponse.speakerName, data.aiResponse.speakerRole || '', data.aiResponse.content);
+      }
+      if (dom.turnCount) dom.turnCount.textContent = data.totalTurns || 0;
+    })
+    .catch(function (err) {
+      console.error('[qa first]', err);
+    });
   }
 
   // ─── Q&A 메시지 ───
