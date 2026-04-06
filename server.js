@@ -43,9 +43,10 @@ app.use(helmet({
       imgSrc: ["'self'", "data:", "blob:"],
       mediaSrc: ["'self'", "blob:"],
       connectSrc: ["'self'", "https://cdn.jsdelivr.net", "https://fonts.googleapis.com", "https://fonts.gstatic.com"],
+      upgradeInsecureRequests: null,
     },
   },
-  hsts: { maxAge: 31536000, includeSubDomains: true },
+  hsts: false,
 }));
 
 app.use(cors({
