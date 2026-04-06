@@ -218,10 +218,9 @@ app.post('/api/sessions/:id/presentation', (req, res) => {
     const session = getSession(req.params.id);
     if (!session) return res.status(404).json({ error: '세션을 찾을 수 없습니다.' });
 
-    const { text, audioTranscript, audioDurationSec, prepTimeSec } = req.body;
-    if (!text && !audioTranscript) {
-      return res.status(400).json({ error: '발표문 텍스트 또는 음성 변환 텍스트가 필요합니다.' });
-    }
+    const { text, audioTranscript, audioDurationSec, prepTimeSec } = req.body || {};
+    // 발표문 텍스트 또는 음성 변환 텍스트 중 하나만 있으면 OK
+    // 둘 다 없어도 상태만 업데이트 (녹음 시작 시점에 호출될 수 있음)
 
     updateSession(session.id, {
       presentationText: text || '',
