@@ -52,36 +52,43 @@
     if (scoreEl) scoreEl.textContent = (evaluation.overallScore || session.score || 0).toFixed(1);
     if (gradeEl) gradeEl.textContent = evaluation.grade || session.grade || '-';
 
-    // 5대 영역 바
+    // 5대 영역 카드 (기안84 CSS 클래스: dimension-card)
     var dims = evaluation.dimensions || [];
-    var barsContainer = document.getElementById('dimensionBars');
-    if (barsContainer && dims.length > 0) {
+    var cardsContainer = document.getElementById('dimensionCards');
+    if (cardsContainer && dims.length > 0) {
       var html = '';
       dims.forEach(function (d) {
-        var pct = Math.min(Math.max((d.score / 5) * 100, 0), 100);
+        var pct = Math.min(Math.max(((d.score || 0) / 5) * 100, 0), 100);
         html +=
-          '<div class="dim-bar-item">' +
-            '<div class="dim-bar-label">' + escapeHtml(d.name) + ' <span class="dim-bar-weight">(' + (d.weight || 0) + '%)</span></div>' +
-            '<div class="dim-bar-track"><div class="dim-bar-fill" style="width:' + pct + '%"></div></div>' +
-            '<div class="dim-bar-score">' + (d.score || 0).toFixed(1) + '</div>' +
-            (d.evidence ? '<div class="dim-detail"><strong>\uADFC\uAC70:</strong> ' + escapeHtml(d.evidence) + '</div>' : '') +
-            (d.suggestion ? '<div class="dim-detail"><strong>\uAC1C\uC120:</strong> ' + escapeHtml(d.suggestion) + '</div>' : '') +
-          '</div>';
+          '<article class="dimension-card">' +
+            '<div class="dimension-card__header">' +
+              '<h3 class="dimension-card__name">' + escapeHtml(d.name) + '</h3>' +
+              '<span class="dimension-card__weight">' + (d.weight || 0) + '%</span>' +
+            '</div>' +
+            '<div class="dimension-card__score-row">' +
+              '<span class="dimension-card__score-value">' + (d.score || 0).toFixed(1) + '<span class="dimension-card__score-max"> / 5</span></span>' +
+              '<div class="score-bar" role="progressbar" aria-valuenow="' + Math.round(pct) + '" aria-valuemin="0" aria-valuemax="100">' +
+                '<div class="score-bar__fill" style="width:' + pct + '%"></div>' +
+              '</div>' +
+            '</div>' +
+            (d.evidence ? '<div class="dimension-card__detail"><div class="dimension-card__detail-label">\uADFC\uAC70</div><p class="dimension-card__detail-text">' + escapeHtml(d.evidence) + '</p></div>' : '') +
+            (d.suggestion ? '<div class="dimension-card__detail"><div class="dimension-card__detail-label">\uAC1C\uC120 \uC81C\uC548</div><p class="dimension-card__detail-text">' + escapeHtml(d.suggestion) + '</p></div>' : '') +
+          '</article>';
       });
-      barsContainer.innerHTML = html;
+      cardsContainer.innerHTML = html;
     }
 
-    // 강점/개선점
-    var strengthsEl = document.getElementById('strengths');
-    var devEl = document.getElementById('developmentAreas');
+    // 강점/개선점 (기안84 CSS 클래스: feedback-card)
+    var strengthsEl = document.getElementById('strengthsList');
+    var devEl = document.getElementById('developmentList');
     if (strengthsEl && evaluation.strengths) {
       strengthsEl.innerHTML = evaluation.strengths.map(function (s) {
-        return '<li>' + escapeHtml(s) + '</li>';
+        return '<div class="feedback-card feedback-card--strength" style="margin-top:var(--space-sm);">' + escapeHtml(s) + '</div>';
       }).join('');
     }
     if (devEl && evaluation.developmentAreas) {
       devEl.innerHTML = evaluation.developmentAreas.map(function (s) {
-        return '<li>' + escapeHtml(s) + '</li>';
+        return '<div class="feedback-card feedback-card--improvement" style="margin-top:var(--space-sm);">' + escapeHtml(s) + '</div>';
       }).join('');
     }
 
