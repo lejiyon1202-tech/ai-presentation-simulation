@@ -59,7 +59,8 @@
       showToast('\uB179\uC74C\uC774 \uC2DC\uC791\uB418\uC5C8\uC2B5\uB2C8\uB2E4. \uBC1C\uD45C\uD574\uC8FC\uC138\uC694.', 'success');
     } catch (e) {
       console.error('[presentation] mic error:', e);
-      showToast('\uB9C8\uC774\uD06C \uC811\uADFC\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4. \uBE0C\uB77C\uC6B0\uC800 \uAD8C\uD55C\uC744 \uD655\uC778\uD574\uC8FC\uC138\uC694.', 'error');
+      showToast('\uB9C8\uC774\uD06C\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. \uD14D\uC2A4\uD2B8 \uBC1C\uD45C \uBAA8\uB4DC\uB85C \uC804\uD658\uD569\uB2C8\uB2E4.', 'warning');
+      showTextFallback();
     }
   }
 
@@ -152,6 +153,45 @@
     if (qaMode) qaMode.style.display = '';
 
     showToast('AI \uCCAD\uC911 Q&A\uAC00 \uC2DC\uC791\uB429\uB2C8\uB2E4.', 'info');
+  }
+
+  // ─── 텍스트 폴백 (마이크 불가 시) ───
+  function showTextFallback() {
+    var presentMode = document.getElementById('presentationMode');
+    if (!presentMode) return;
+
+    // 녹음 UI 숨기고 텍스트 입력 표시
+    var recordingArea = presentMode.querySelector('.recording-controls') || presentMode.querySelector('.waveform');
+    if (recordingArea) recordingArea.style.display = 'none';
+
+    var fallback = document.createElement('div');
+    fallback.className = 'text-fallback';
+    fallback.innerHTML =
+      '<div style="padding:var(--space-lg);text-align:center;">' +
+        '<p style="color:var(--text-muted);margin-bottom:var(--space-md);">\uB9C8\uC774\uD06C\uB97C \uC0AC\uC6A9\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4. (HTTPS \uD544\uC694)</p>' +
+        '<p style="margin-bottom:var(--space-lg);">\uD14D\uC2A4\uD2B8\uB85C \uBC1C\uD45C \uB0B4\uC6A9\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.</p>' +
+        '<textarea id="textPresentationInput" rows="8" style="width:100%;padding:var(--space-md);border:1px solid var(--border-color);border-radius:var(--radius-md);font-size:var(--font-size-base);resize:vertical;" placeholder="\uBC1C\uD45C \uB0B4\uC6A9\uC744 \uC785\uB825\uD558\uC138\uC694..."></textarea>' +
+        '<button id="textPresentSubmit" class="btn btn-primary" style="margin-top:var(--space-md);">\uBC1C\uD45C \uC644\uB8CC \u2192 Q&A \uC2DC\uC791</button>' +
+      '</div>';
+    presentMode.appendChild(fallback);
+
+    var submitBtn = document.getElementById('textPresentSubmit');
+    if (submitBtn) {
+      submitBtn.addEventListener('click', function () {
+        var text = (document.getElementById('textPresentationInput') || {}).value || '';
+        if (!text.trim()) { showToast('\uBC1C\uD45C \uB0B4\uC6A9\uC744 \uC785\uB825\uD574\uC8FC\uC138\uC694.', 'warning'); return; }
+
+        fetch('/api/sessions/' + state.sessionId + '/presentation', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: text, audioDurationSec: 0 }),
+        }).then(function () {
+          showQAPhase();
+        }).catch(function () {
+          showToast('\uC81C\uCD9C\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.', 'error');
+        });
+      });
+    }
   }
 
   function sendQAMessage() {
