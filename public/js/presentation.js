@@ -307,7 +307,15 @@
       if (data.aiResponse) {
         appendQAMessage('audience', data.aiResponse.speakerName, data.aiResponse.speakerRole || '', data.aiResponse.content);
       }
-      if (dom.turnCount) dom.turnCount.textContent = data.totalTurns || 0;
+      var turns = data.totalTurns || 0;
+      var maxTurns = 10;
+      if (dom.turnCount) dom.turnCount.textContent = Math.ceil(turns / 2) + ' / 5';
+      if (dom.remainingQuestions) dom.remainingQuestions.textContent = Math.max(0, 5 - Math.ceil(turns / 2)) + '개';
+
+      // 5턴 이상이면 자동으로 종료 안내
+      if (turns >= maxTurns) {
+        showToast('Q&A가 완료되었습니다. "발표 종료" 버튼을 눌러주세요.', 'info');
+      }
     })
     .catch(function (err) {
       dom.qaInput.disabled = false;
