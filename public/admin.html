@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 대시보드 — AI 발표 시뮬레이션</title>
+  <meta name="description" content="AI 발표 시뮬레이션 관리자 대시보드">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  </noscript>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 변경">&#9728;</button>
+
+  <!-- ════════════════════════════════════════════
+       Login Overlay
+       ════════════════════════════════════════════ -->
+  <div class="login-overlay" id="loginOverlay" role="dialog" aria-modal="true" aria-label="관리자 로그인">
+    <div class="login-card card">
+      <div class="login-card__icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h1 class="login-card__title">관리자 인증</h1>
+      <p class="login-card__desc">대시보드에 접근하려면 관리자 비밀번호를 입력하세요.</p>
+
+      <form id="loginForm" autocomplete="off">
+        <div class="login-card__field">
+          <svg class="login-card__field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+          <input type="password" id="adminPassword" class="input" placeholder="비밀번호 입력" aria-label="관리자 비밀번호" required>
+        </div>
+        <div class="login-card__error" id="loginError" role="alert"></div>
+        <button type="submit" class="btn btn-primary btn-lg" id="loginBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" aria-hidden="true">
+            <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+            <polyline points="10 17 15 12 10 7"></polyline>
+            <line x1="15" y1="12" x2="3" y2="12"></line>
+          </svg>
+          로그인
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       Dashboard
+       ════════════════════════════════════════════ -->
+  <div class="admin-page" id="adminDashboard">
+
+    <!-- Dashboard Header -->
+    <header class="admin-header">
+      <h1 class="admin-header__title">관리자 대시보드</h1>
+      <div class="admin-header__actions">
+        <button type="button" class="btn btn-ghost" id="refreshBtn" aria-label="새로고침">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+            <polyline points="23 4 23 10 17 10"></polyline>
+            <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+          </svg>
+          새로고침
+        </button>
+        <button type="button" class="btn btn-secondary" id="logoutBtn" aria-label="로그아웃">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          로그아웃
+        </button>
+      </div>
+    </header>
+
+    <!-- Stats Cards -->
+    <div class="stats-grid" id="statsGrid">
+      <div class="stat-card">
+        <div class="stat-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+        </div>
+        <div class="stat-card__label">총 세션</div>
+        <div class="stat-card__value" id="statTotal">128</div>
+        <div class="stat-card__trend stat-card__trend--up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+          +12%
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+            <polyline points="22 4 12 14.01 9 11.01"></polyline>
+          </svg>
+        </div>
+        <div class="stat-card__label">완료 세션</div>
+        <div class="stat-card__value" id="statCompleted">96</div>
+        <div class="stat-card__trend stat-card__trend--up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+          75%
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="18" y1="20" x2="18" y2="10"></line>
+            <line x1="12" y1="20" x2="12" y2="4"></line>
+            <line x1="6" y1="20" x2="6" y2="14"></line>
+          </svg>
+        </div>
+        <div class="stat-card__label">평균 점수</div>
+        <div class="stat-card__value" id="statAvgScore">78.4</div>
+        <div class="stat-card__trend stat-card__trend--up">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"></polyline></svg>
+          +3.2
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card__icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="stat-card__label">평균 발표 시간</div>
+        <div class="stat-card__value" id="statAvgTime">14:32</div>
+        <div class="stat-card__trend stat-card__trend--down">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="23 18 13.5 8.5 8.5 13.5 1 6"></polyline></svg>
+          -0:48
+        </div>
+      </div>
+    </div>
+
+    <!-- Sessions Section -->
+    <section class="admin-section" aria-labelledby="sessionsTitle">
+      <div class="admin-section__header">
+        <h2 class="admin-section__title" id="sessionsTitle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          세션 목록
+        </h2>
+        <div class="admin-section__actions export-bar">
+          <button type="button" class="btn btn-ghost" id="exportJsonBtn" aria-label="JSON으로 내보내기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            JSON
+          </button>
+          <button type="button" class="btn btn-ghost" id="exportCsvBtn" aria-label="CSV로 내보내기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            CSV
+          </button>
+          <button type="button" class="btn btn-ghost" id="exportExcelBtn" aria-label="Excel로 내보내기">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+            Excel
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <!-- Table Toolbar -->
+        <div class="table-toolbar">
+          <div class="table-toolbar__search">
+            <svg class="table-toolbar__search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+              <circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+            <input type="text" id="searchInput" class="input" placeholder="이름 또는 시나리오 검색..." aria-label="세션 검색">
+          </div>
+          <div class="table-toolbar__filters">
+            <select id="filterStatus" aria-label="상태 필터">
+              <option value="">전체 상태</option>
+              <option value="completed">완료</option>
+              <option value="in-progress">진행 중</option>
+              <option value="abandoned">중단</option>
+            </select>
+            <select id="filterGrade" aria-label="등급 필터">
+              <option value="">전체 등급</option>
+              <option value="S">S 등급</option>
+              <option value="A">A 등급</option>
+              <option value="B">B 등급</option>
+              <option value="C">C 등급</option>
+              <option value="D">D 등급</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Sessions Table -->
+        <div style="overflow-x: auto;">
+          <table class="sessions-table" id="sessionsTable">
+            <thead>
+              <tr>
+                <th scope="col" data-sort="name">이름 <span class="sort-arrow">&#9650;</span></th>
+                <th scope="col" data-sort="scenario">시나리오 <span class="sort-arrow">&#9650;</span></th>
+                <th scope="col" data-sort="status">상태 <span class="sort-arrow">&#9650;</span></th>
+                <th scope="col" data-sort="score">점수 <span class="sort-arrow">&#9660;</span></th>
+                <th scope="col" data-sort="grade">등급 <span class="sort-arrow">&#9650;</span></th>
+                <th scope="col" data-sort="date">일시 <span class="sort-arrow">&#9660;</span></th>
+                <th scope="col"><span class="sr-only">상세</span></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="cell-name">김지훈</td>
+                <td>신규 사업 제안</td>
+                <td><span class="cell-status cell-status--completed">완료</span></td>
+                <td class="cell-score">92</td>
+                <td><span class="cell-grade grade-s" style="color:var(--grade-s);border-color:var(--grade-s);background:var(--grade-s-bg);">S</span></td>
+                <td>2026-04-06 14:23</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">이수연</td>
+                <td>분기 성과 보고</td>
+                <td><span class="cell-status cell-status--completed">완료</span></td>
+                <td class="cell-score">85</td>
+                <td><span class="cell-grade grade-a" style="color:var(--grade-a);border-color:var(--grade-a);background:var(--grade-a-bg);">A</span></td>
+                <td>2026-04-06 11:05</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">박영호</td>
+                <td>위기 대응 브리핑</td>
+                <td><span class="cell-status cell-status--in-progress">진행 중</span></td>
+                <td class="cell-score">--</td>
+                <td><span class="cell-grade" style="color:var(--text-muted);border-color:var(--border-default);background:var(--bg-elevated);">-</span></td>
+                <td>2026-04-06 10:48</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">최민지</td>
+                <td>투자 유치 피칭</td>
+                <td><span class="cell-status cell-status--completed">완료</span></td>
+                <td class="cell-score">78</td>
+                <td><span class="cell-grade grade-b" style="color:var(--grade-b);border-color:var(--grade-b);background:var(--grade-b-bg);">B</span></td>
+                <td>2026-04-05 16:30</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">정하나</td>
+                <td>신규 사업 제안</td>
+                <td><span class="cell-status cell-status--completed">완료</span></td>
+                <td class="cell-score">71</td>
+                <td><span class="cell-grade grade-c" style="color:var(--grade-c);border-color:var(--grade-c);background:var(--grade-c-bg);">C</span></td>
+                <td>2026-04-05 14:12</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">오세준</td>
+                <td>기술 데모 발표</td>
+                <td><span class="cell-status cell-status--abandoned">중단</span></td>
+                <td class="cell-score">--</td>
+                <td><span class="cell-grade" style="color:var(--text-muted);border-color:var(--border-default);background:var(--bg-elevated);">-</span></td>
+                <td>2026-04-05 09:55</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+              <tr>
+                <td class="cell-name">한예린</td>
+                <td>분기 성과 보고</td>
+                <td><span class="cell-status cell-status--completed">완료</span></td>
+                <td class="cell-score">55</td>
+                <td><span class="cell-grade grade-d" style="color:var(--grade-d);border-color:var(--grade-d);background:var(--grade-d-bg);">D</span></td>
+                <td>2026-04-04 17:40</td>
+                <td><button type="button" class="cell-action-btn" aria-label="상세 보기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="table-pagination">
+          <span class="table-pagination__info">1 - 7 / 128건</span>
+          <div class="table-pagination__controls">
+            <button type="button" class="table-pagination__btn" disabled aria-label="이전 페이지">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="15 18 9 12 15 6"></polyline></svg>
+            </button>
+            <button type="button" class="table-pagination__btn table-pagination__btn--active" aria-label="1 페이지" aria-current="page">1</button>
+            <button type="button" class="table-pagination__btn" aria-label="2 페이지">2</button>
+            <button type="button" class="table-pagination__btn" aria-label="3 페이지">3</button>
+            <button type="button" class="table-pagination__btn" aria-label="다음 페이지">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Scenario Management Section -->
+    <section class="admin-section" aria-labelledby="scenarioTitle">
+      <div class="admin-section__header">
+        <h2 class="admin-section__title" id="scenarioTitle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+            <polyline points="2 17 12 22 22 17"></polyline>
+            <polyline points="2 12 12 17 22 12"></polyline>
+          </svg>
+          시나리오 관리
+        </h2>
+        <div class="admin-section__actions">
+          <button type="button" class="btn btn-primary" id="generateScenarioBtn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+            </svg>
+            AI 시나리오 생성
+          </button>
+        </div>
+      </div>
+
+      <div class="scenario-list" id="scenarioList">
+        <article class="scenario-card">
+          <h3 class="scenario-card__title">신규 사업 제안</h3>
+          <p class="scenario-card__desc">경영진 앞에서 새로운 사업 기회를 제안하고 투자 승인을 받는 발표 시나리오입니다.</p>
+          <div class="scenario-card__stats">
+            <span class="scenario-card__stat"><strong>42</strong> 세션</span>
+            <span class="scenario-card__stat">평균 <strong>79.3</strong>점</span>
+            <span class="scenario-card__stat">완료율 <strong>81%</strong></span>
+          </div>
+        </article>
+
+        <article class="scenario-card">
+          <h3 class="scenario-card__title">분기 성과 보고</h3>
+          <p class="scenario-card__desc">부서의 분기별 성과를 임원진에게 보고하고 다음 분기 전략을 제안하는 시나리오입니다.</p>
+          <div class="scenario-card__stats">
+            <span class="scenario-card__stat"><strong>38</strong> 세션</span>
+            <span class="scenario-card__stat">평균 <strong>76.8</strong>점</span>
+            <span class="scenario-card__stat">완료율 <strong>84%</strong></span>
+          </div>
+        </article>
+
+        <article class="scenario-card">
+          <h3 class="scenario-card__title">위기 대응 브리핑</h3>
+          <p class="scenario-card__desc">긴급 상황 발생 시 이해관계자들에게 현황을 브리핑하고 대응 계획을 발표하는 시나리오입니다.</p>
+          <div class="scenario-card__stats">
+            <span class="scenario-card__stat"><strong>28</strong> 세션</span>
+            <span class="scenario-card__stat">평균 <strong>72.1</strong>점</span>
+            <span class="scenario-card__stat">완료율 <strong>71%</strong></span>
+          </div>
+        </article>
+
+        <article class="scenario-card">
+          <h3 class="scenario-card__title">투자 유치 피칭</h3>
+          <p class="scenario-card__desc">스타트업 또는 신규 프로젝트를 위한 투자 유치 피칭 발표 시나리오입니다.</p>
+          <div class="scenario-card__stats">
+            <span class="scenario-card__stat"><strong>15</strong> 세션</span>
+            <span class="scenario-card__stat">평균 <strong>81.5</strong>점</span>
+            <span class="scenario-card__stat">완료율 <strong>87%</strong></span>
+          </div>
+        </article>
+
+        <article class="scenario-card">
+          <h3 class="scenario-card__title">기술 데모 발표</h3>
+          <p class="scenario-card__desc">신규 기술이나 제품의 기능을 시연하며 도입 필요성을 설명하는 기술 발표 시나리오입니다.</p>
+          <div class="scenario-card__stats">
+            <span class="scenario-card__stat"><strong>5</strong> 세션</span>
+            <span class="scenario-card__stat">평균 <strong>74.0</strong>점</span>
+            <span class="scenario-card__stat">완료율 <strong>60%</strong></span>
+          </div>
+        </article>
+      </div>
+    </section>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       Session Detail Modal
+       ════════════════════════════════════════════ -->
+  <div class="modal-overlay" id="sessionModal" role="dialog" aria-modal="true" aria-label="세션 상세 정보">
+    <div class="modal-panel">
+      <div class="modal-header">
+        <h2 class="modal-header__title" id="modalTitle">세션 상세 정보</h2>
+        <button type="button" class="modal-close" id="modalClose" aria-label="닫기">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="modal-body" id="modalBody">
+        <!-- Session Info -->
+        <div class="modal-body__section">
+          <div class="modal-body__label">기본 정보</div>
+          <div class="modal-info-grid">
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">학습자</div>
+              <div class="modal-info-item__value" id="modalLearner">김지훈</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">시나리오</div>
+              <div class="modal-info-item__value" id="modalScenario">신규 사업 제안</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">점수 / 등급</div>
+              <div class="modal-info-item__value" id="modalScore">92점 / S등급</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">일시</div>
+              <div class="modal-info-item__value" id="modalDate">2026-04-06 14:23</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">발표 시간</div>
+              <div class="modal-info-item__value" id="modalDuration">15분 22초</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">상태</div>
+              <div class="modal-info-item__value" id="modalStatus">완료</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q&A Log -->
+        <div class="modal-body__section">
+          <div class="modal-body__label">Q&amp;A 기록</div>
+          <div class="modal-qa-list" id="modalQaList">
+            <div class="modal-qa-item">
+              <div class="modal-qa-item__q">Q: 이 사업의 예상 수익 모델은?</div>
+              <div class="modal-qa-item__a">구독 기반 SaaS 모델로, 기업당 월 200만원의 라이선스 비용을 책정하고 있습니다. 초기 3년간 100개 기업 확보를 목표로 합니다.</div>
+            </div>
+            <div class="modal-qa-item">
+              <div class="modal-qa-item__q">Q: 경쟁 우위를 유지할 기술적 해자는?</div>
+              <div class="modal-qa-item__a">자체 개발한 AI 평가 엔진에 3년간의 학습 데이터가 축적되어 있어, 후발 주자가 동일 수준의 정확도를 달성하기 어렵습니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Evaluation -->
+        <div class="modal-body__section">
+          <div class="modal-body__label">평가 요약</div>
+          <div class="modal-info-grid">
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">내용 구성</div>
+              <div class="modal-info-item__value">4.6 / 5</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">논리 전개</div>
+              <div class="modal-info-item__value">4.5 / 5</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">전달력</div>
+              <div class="modal-info-item__value">4.8 / 5</div>
+            </div>
+            <div class="modal-info-item">
+              <div class="modal-info-item__key">Q&amp;A 대응</div>
+              <div class="modal-info-item__value">4.2 / 5</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Audio Player -->
+        <div class="modal-body__section">
+          <div class="modal-body__label">발표 녹음</div>
+          <audio class="modal-audio-player" controls preload="none" id="modalAudioPlayer">
+            <source src="" type="audio/webm">
+            녹음 파일이 없습니다.
+          </audio>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <a href="report.html" class="btn btn-primary" id="modalViewReport">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16" aria-hidden="true">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+          </svg>
+          전체 리포트 보기
+        </a>
+        <button type="button" class="btn btn-secondary" id="modalCloseBtn">닫기</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</body>
+</html>

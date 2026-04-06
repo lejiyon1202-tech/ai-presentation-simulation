@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI 프레젠테이션 시뮬레이션</title>
+  <meta name="description" content="AI 청중 앞에서 실전처럼 발표하고, 즉석 질의응답과 5대 역량 평가를 받아보세요.">
+
+  <!-- Pretendard Font -->
+  <link rel="stylesheet" as="style" crossorigin
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  </noscript>
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 변경">
+    <span aria-hidden="true">&#9790;</span>
+  </button>
+
+  <!-- Navigation -->
+  <nav class="nav" role="navigation" aria-label="메인 내비게이션">
+    <div class="nav-logo">
+      <div class="nav-logo-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 014 4v14a3 3 0 00-3-3H2z"/><path d="M22 3h-6a4 4 0 00-4 4v14a3 3 0 013-3h7z"/></svg>
+      </div>
+      <span class="nav-title">AI 프레젠테이션</span>
+    </div>
+    <div class="nav-spacer"></div>
+    <a href="#scenarios" class="nav-link">시나리오</a>
+    <a href="#register" class="nav-link">시작하기</a>
+    <a href="#features" class="nav-link">주요 기능</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero" role="banner">
+    <div class="hero-content">
+      <div class="hero-badge" aria-label="서비스 상태: 운영 중">
+        <span class="hero-badge-dot"></span>
+        AI 시뮬레이션 체험
+      </div>
+
+      <h1 class="hero-title">
+        실전보다 더 실전 같은<br>
+        <span class="hero-title-accent">프레젠테이션 경험</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        AI가 만든 임원 청중 앞에서 발표하고, 날카로운 질의응답을 경험하세요.
+        구조력, 전달력, 논리력, 대응력, 설득력 — 5대 역량을 정밀 평가합니다.
+      </p>
+
+      <div class="hero-stats" aria-label="서비스 통계">
+        <div class="hero-stat">
+          <div class="hero-stat-value">5</div>
+          <div class="hero-stat-label">평가 역량</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">3~5</div>
+          <div class="hero-stat-label">AI 청중</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-value">30</div>
+          <div class="hero-stat-label">분 소요</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenario Selection -->
+  <section id="scenarios" class="section" aria-labelledby="scenarioHeading">
+    <div class="section-header">
+      <h2 id="scenarioHeading" class="section-title">시나리오 선택</h2>
+      <p class="section-desc">발표 상황을 선택하세요. 각 시나리오는 실제 기업 환경을 반영합니다.</p>
+    </div>
+
+    <div id="scenarioGrid" class="scenario-grid" role="listbox" aria-label="시나리오 목록">
+
+      <!-- Scenario Card 1 -->
+      <div class="scenario-card" role="option" tabindex="0" aria-selected="false" data-scenario="new-business">
+        <div class="scenario-card-header">
+          <h3 class="scenario-card-title">신규 사업 투자 제안</h3>
+          <div class="scenario-difficulty" aria-label="난이도 3단계 중 3">
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+          </div>
+        </div>
+        <p class="scenario-card-desc">
+          이사회에서 50억 원 규모 신규 사업 투자를 승인받아야 합니다.
+          재무, 전략, 리스크 관점의 질문이 쏟아집니다.
+        </p>
+        <div class="scenario-card-meta">
+          <span class="scenario-meta-item" aria-label="소요 시간 40분">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            40분
+          </span>
+          <span class="scenario-meta-item" aria-label="청중 5명">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            5명
+          </span>
+        </div>
+      </div>
+
+      <!-- Scenario Card 2 -->
+      <div class="scenario-card" role="option" tabindex="0" aria-selected="false" data-scenario="quarterly-review">
+        <div class="scenario-card-header">
+          <h3 class="scenario-card-title">분기 실적 보고</h3>
+          <div class="scenario-difficulty" aria-label="난이도 3단계 중 2">
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star" aria-hidden="true">&#9733;</span>
+          </div>
+        </div>
+        <p class="scenario-card-desc">
+          CEO와 경영진에게 분기 실적을 보고합니다.
+          매출 하락 원인과 개선 방안에 대한 날카로운 질문에 대비하세요.
+        </p>
+        <div class="scenario-card-meta">
+          <span class="scenario-meta-item" aria-label="소요 시간 30분">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            30분
+          </span>
+          <span class="scenario-meta-item" aria-label="청중 4명">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            4명
+          </span>
+        </div>
+      </div>
+
+      <!-- Scenario Card 3 -->
+      <div class="scenario-card" role="option" tabindex="0" aria-selected="false" data-scenario="change-management">
+        <div class="scenario-card-header">
+          <h3 class="scenario-card-title">조직 변화 관리 보고</h3>
+          <div class="scenario-difficulty" aria-label="난이도 3단계 중 2">
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star filled" aria-hidden="true">&#9733;</span>
+            <span class="scenario-star" aria-hidden="true">&#9733;</span>
+          </div>
+        </div>
+        <p class="scenario-card-desc">
+          대규모 조직 개편 계획을 임원진에게 설득해야 합니다.
+          인력, 비용, 일정, 구성원 반발 리스크를 다뤄야 합니다.
+        </p>
+        <div class="scenario-card-meta">
+          <span class="scenario-meta-item" aria-label="소요 시간 35분">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+            35분
+          </span>
+          <span class="scenario-meta-item" aria-label="청중 4명">
+            <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            4명
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Registration Form -->
+  <section id="register" class="section form-section" aria-labelledby="registerHeading">
+    <div class="section-header">
+      <h2 id="registerHeading" class="section-title">학습자 등록</h2>
+      <p class="section-desc">정보를 입력하고 시뮬레이션을 시작하세요.</p>
+    </div>
+
+    <form id="startForm" class="form-container" novalidate>
+      <div class="form-group">
+        <label for="learnerName" class="form-label form-label-required">이름</label>
+        <input type="text" id="learnerName" name="name" placeholder="홍길동" required
+               aria-required="true" autocomplete="name">
+        <p class="form-hint">실명을 입력해주세요. 평가 리포트에 표시됩니다.</p>
+      </div>
+
+      <div class="form-group">
+        <label for="learnerDept" class="form-label form-label-required">소속 부서</label>
+        <select id="learnerDept" name="department" required aria-required="true">
+          <option value="" disabled selected>부서를 선택하세요</option>
+          <option value="경영기획">경영기획</option>
+          <option value="영업">영업</option>
+          <option value="마케팅">마케팅</option>
+          <option value="인사">인사</option>
+          <option value="재무">재무</option>
+          <option value="IT">IT</option>
+          <option value="R&D">R&amp;D</option>
+          <option value="생산">생산</option>
+          <option value="기타">기타</option>
+        </select>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary btn-lg" aria-label="시뮬레이션 시작">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+               stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="5 3 19 12 5 21 5 3"/>
+          </svg>
+          시뮬레이션 시작
+        </button>
+      </div>
+    </form>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="section" aria-labelledby="featuresHeading">
+    <div class="section-header">
+      <h2 id="featuresHeading" class="section-title">주요 기능</h2>
+      <p class="section-desc">실전 프레젠테이션 역량 강화를 위한 핵심 기능</p>
+    </div>
+
+    <div class="features-grid">
+      <!-- Feature 1: AI Q&A -->
+      <article class="feature-card">
+        <div class="feature-icon feature-icon--qa" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">AI 청중 질의응답</h3>
+        <p class="feature-desc">
+          CFO, CTO, CMO 등 역할별 AI 청중이
+          실제 임원처럼 날카로운 질문을 던집니다.
+        </p>
+      </article>
+
+      <!-- Feature 2: Voice Recording -->
+      <article class="feature-card">
+        <div class="feature-icon feature-icon--voice" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 1a3 3 0 00-3 3v8a3 3 0 006 0V4a3 3 0 00-3-3z"/>
+            <path d="M19 10v2a7 7 0 01-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">음성 녹음 분석</h3>
+        <p class="feature-desc">
+          발표 음성을 녹음하고 속도, 간투어, 침묵 구간 등
+          전달력 요소를 자동 분석합니다.
+        </p>
+      </article>
+
+      <!-- Feature 3: 5-Competency Evaluation -->
+      <article class="feature-card">
+        <div class="feature-icon feature-icon--eval" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01z"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">5대 역량 평가</h3>
+        <p class="feature-desc">
+          구조력, 전달력, 논리력, 대응력, 설득력
+          5개 축으로 정밀하게 채점합니다.
+        </p>
+      </article>
+
+      <!-- Feature 4: Real-time Feedback -->
+      <article class="feature-card">
+        <div class="feature-icon feature-icon--feedback" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+          </svg>
+        </div>
+        <h3 class="feature-title">실시간 피드백</h3>
+        <p class="feature-desc">
+          발표 직후 강점과 개선점을 즉시 확인하고,
+          구체적인 행동 변화 가이드를 받습니다.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer" role="contentinfo">
+    <p class="footer-text">
+      AI 프레젠테이션 시뮬레이션 &mdash; HRD 교육 솔루션
+    </p>
+  </footer>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+</body>
+</html>

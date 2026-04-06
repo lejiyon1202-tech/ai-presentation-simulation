@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>평가 리포트 — AI 발표 시뮬레이션</title>
+  <meta name="description" content="AI 발표 시뮬레이션 평가 결과 리포트">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" as="style"
+        href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css"
+        media="print" onload="this.media='all'">
+  <noscript>
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  </noscript>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/report.css">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <button id="themeToggle" class="theme-toggle" type="button" aria-label="테마 변경">&#9728;</button>
+
+  <!-- Hidden JSON data injected by JS -->
+  <script id="reportData" type="application/json">{}</script>
+
+  <main class="report-page" role="main">
+    <!-- Back Navigation -->
+    <a href="index.html" class="report-back" aria-label="메인으로 돌아가기">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M19 12H5"></path><path d="M12 19l-7-7 7-7"></path>
+      </svg>
+      메인으로 돌아가기
+    </a>
+
+    <!-- Report Header -->
+    <header class="report-header">
+      <div class="report-header__info">
+        <span class="report-header__label">발표 평가 리포트</span>
+        <h1 class="report-header__title" id="reportTitle">발표 시뮬레이션 평가 결과</h1>
+        <div class="report-header__meta">
+          <span class="report-header__meta-item" id="reportLearner">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            학습자명
+          </span>
+          <span class="report-header__meta-item" id="reportScenario">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path></svg>
+            시나리오명
+          </span>
+          <span class="report-header__meta-item" id="reportDate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
+            2026-04-06
+          </span>
+        </div>
+      </div>
+
+      <!-- Score Gauge -->
+      <div class="score-gauge" id="scoreGauge">
+        <svg class="score-gauge__svg" viewBox="0 0 160 160" aria-label="종합 점수">
+          <defs>
+            <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="var(--accent-primary)"/>
+              <stop offset="100%" stop-color="var(--accent-secondary)"/>
+            </linearGradient>
+          </defs>
+          <circle class="score-gauge__track" cx="80" cy="80" r="65"/>
+          <circle class="score-gauge__fill" cx="80" cy="80" r="65"
+                  stroke-dasharray="408.41"
+                  stroke-dashoffset="408.41"
+                  data-target="0"/>
+          <text class="score-gauge__score" x="80" y="74">0</text>
+          <text class="score-gauge__unit" x="80" y="98">/ 100</text>
+        </svg>
+        <span class="grade-badge" id="gradeBadge" data-grade="B" aria-label="등급">B</span>
+      </div>
+    </header>
+
+    <!-- Executive Summary -->
+    <div class="executive-summary">
+      <div class="executive-summary__label">종합 소견</div>
+      <p class="executive-summary__text" id="executiveSummary">
+        발표 내용의 구성과 논리적 전개가 우수하며, 핵심 메시지가 명확하게 전달되었습니다.
+        Q&amp;A 대응 능력에서 개선의 여지가 있으며, 시간 배분을 좀 더 전략적으로 활용할 필요가 있습니다.
+        전반적으로 안정적인 발표 역량을 보여주었습니다.
+      </p>
+    </div>
+
+    <!-- Evaluation Dimensions -->
+    <section class="report-section" aria-labelledby="dimensionsHeading">
+      <h2 class="report-section__heading" id="dimensionsHeading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+        평가 항목별 결과
+      </h2>
+      <div class="dimension-grid" id="dimensionCards">
+
+        <!-- Dimension 1: 내용 구성 -->
+        <article class="dimension-card">
+          <div class="dimension-card__header">
+            <h3 class="dimension-card__name">내용 구성</h3>
+            <span class="dimension-card__weight">30%</span>
+          </div>
+          <div class="dimension-card__score-row">
+            <span class="dimension-card__score-value">4.2<span class="dimension-card__score-max"> / 5</span></span>
+            <div class="score-bar" role="progressbar" aria-valuenow="84" aria-valuemin="0" aria-valuemax="100" aria-label="내용 구성 점수">
+              <div class="score-bar__fill" style="width: 84%"></div>
+            </div>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">근거</div>
+            <p class="dimension-card__detail-text">핵심 메시지를 3가지 주요 포인트로 구조화하여 전달했으며, 각 포인트에 대한 구체적인 사례와 데이터를 활용하여 설득력을 높였습니다.</p>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">개선 제안</div>
+            <p class="dimension-card__detail-text">도입부에서 청중의 관심을 끌 수 있는 질문이나 통계를 활용하면 더욱 효과적입니다.</p>
+          </div>
+        </article>
+
+        <!-- Dimension 2: 논리 전개 -->
+        <article class="dimension-card">
+          <div class="dimension-card__header">
+            <h3 class="dimension-card__name">논리 전개</h3>
+            <span class="dimension-card__weight">25%</span>
+          </div>
+          <div class="dimension-card__score-row">
+            <span class="dimension-card__score-value">3.8<span class="dimension-card__score-max"> / 5</span></span>
+            <div class="score-bar" role="progressbar" aria-valuenow="76" aria-valuemin="0" aria-valuemax="100" aria-label="논리 전개 점수">
+              <div class="score-bar__fill" style="width: 76%"></div>
+            </div>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">근거</div>
+            <p class="dimension-card__detail-text">문제 정의에서 해결 방안으로의 흐름이 자연스러우나, 중간 논거 간 연결이 일부 약한 부분이 있습니다.</p>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">개선 제안</div>
+            <p class="dimension-card__detail-text">각 논거 사이에 전환 문장을 추가하고, "왜 이것이 중요한가?"를 명시적으로 설명하면 논리적 흐름이 강화됩니다.</p>
+          </div>
+        </article>
+
+        <!-- Dimension 3: 전달력 -->
+        <article class="dimension-card">
+          <div class="dimension-card__header">
+            <h3 class="dimension-card__name">전달력</h3>
+            <span class="dimension-card__weight">20%</span>
+          </div>
+          <div class="dimension-card__score-row">
+            <span class="dimension-card__score-value">4.0<span class="dimension-card__score-max"> / 5</span></span>
+            <div class="score-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" aria-label="전달력 점수">
+              <div class="score-bar__fill" style="width: 80%"></div>
+            </div>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">근거</div>
+            <p class="dimension-card__detail-text">명확한 발음과 적절한 속도로 발표했으며, 핵심 키워드에서의 강조가 효과적이었습니다.</p>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">개선 제안</div>
+            <p class="dimension-card__detail-text">슬라이드 전환 시 청중과의 아이컨택을 더 의식적으로 유지하면 전달력이 한층 높아집니다.</p>
+          </div>
+        </article>
+
+        <!-- Dimension 4: Q&A 대응 -->
+        <article class="dimension-card">
+          <div class="dimension-card__header">
+            <h3 class="dimension-card__name">Q&amp;A 대응</h3>
+            <span class="dimension-card__weight">15%</span>
+          </div>
+          <div class="dimension-card__score-row">
+            <span class="dimension-card__score-value">3.5<span class="dimension-card__score-max"> / 5</span></span>
+            <div class="score-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" aria-label="Q&A 대응 점수">
+              <div class="score-bar__fill" style="width: 70%"></div>
+            </div>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">근거</div>
+            <p class="dimension-card__detail-text">질문의 의도를 파악하고 답변했으나, 예상치 못한 질문에 대한 대응이 다소 미흡했습니다.</p>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">개선 제안</div>
+            <p class="dimension-card__detail-text">답변 전 질문을 재진술하는 습관을 들이면 생각할 시간을 확보하면서 전문성을 보여줄 수 있습니다.</p>
+          </div>
+        </article>
+
+        <!-- Dimension 5: 시간 관리 -->
+        <article class="dimension-card">
+          <div class="dimension-card__header">
+            <h3 class="dimension-card__name">시간 관리</h3>
+            <span class="dimension-card__weight">10%</span>
+          </div>
+          <div class="dimension-card__score-row">
+            <span class="dimension-card__score-value">3.2<span class="dimension-card__score-max"> / 5</span></span>
+            <div class="score-bar" role="progressbar" aria-valuenow="64" aria-valuemin="0" aria-valuemax="100" aria-label="시간 관리 점수">
+              <div class="score-bar__fill" style="width: 64%"></div>
+            </div>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">근거</div>
+            <p class="dimension-card__detail-text">전체 발표 시간은 적절했으나, 후반부 내용이 압축되면서 결론 부분이 서둘러 마무리되었습니다.</p>
+          </div>
+          <div class="dimension-card__detail">
+            <div class="dimension-card__detail-label">개선 제안</div>
+            <p class="dimension-card__detail-text">각 파트별 시간 배분을 사전에 계획하고, 중간 체크포인트를 설정하여 발표 흐름을 관리하세요.</p>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Strengths & Development Areas -->
+    <section class="report-section" aria-labelledby="feedbackHeading">
+      <h2 class="report-section__heading" id="feedbackHeading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        강점 및 개발 영역
+      </h2>
+      <div class="feedback-grid">
+        <!-- Strengths -->
+        <div>
+          <h3 class="sr-only">강점</h3>
+          <div class="feedback-card feedback-card--strength" id="strength1">
+            <div class="feedback-card__title">명확한 메시지 구조</div>
+            3가지 핵심 포인트를 체계적으로 제시하여 청중이 내용을 쉽게 따라갈 수 있었습니다.
+          </div>
+          <div class="feedback-card feedback-card--strength" id="strength2" style="margin-top: var(--space-sm)">
+            <div class="feedback-card__title">데이터 기반 설득</div>
+            구체적인 수치와 사례를 활용하여 주장의 신뢰성을 효과적으로 높였습니다.
+          </div>
+          <div class="feedback-card feedback-card--strength" id="strength3" style="margin-top: var(--space-sm)">
+            <div class="feedback-card__title">안정적인 발표 태도</div>
+            차분하고 자신감 있는 태도로 발표하여 전문성이 느껴졌습니다.
+          </div>
+        </div>
+        <!-- Development Areas -->
+        <div>
+          <h3 class="sr-only">개발 영역</h3>
+          <div class="feedback-card feedback-card--improvement" id="improvement1">
+            <div class="feedback-card__title">돌발 질문 대응력</div>
+            예상 범위를 벗어난 질문에 대한 유연한 대처 능력을 키울 필요가 있습니다.
+          </div>
+          <div class="feedback-card feedback-card--improvement" id="improvement2" style="margin-top: var(--space-sm)">
+            <div class="feedback-card__title">시간 배분 전략</div>
+            후반부 내용 압축을 방지하기 위해 파트별 시간 관리 전략이 필요합니다.
+          </div>
+          <div class="feedback-card feedback-card--improvement" id="improvement3" style="margin-top: var(--space-sm)">
+            <div class="feedback-card__title">논거 간 연결 강화</div>
+            각 주장 사이의 전환을 더 자연스럽게 연결하면 설득력이 높아집니다.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audio Analysis -->
+    <section class="report-section" aria-labelledby="audioHeading" id="audioSection">
+      <h2 class="report-section__heading" id="audioHeading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" y1="19" x2="12" y2="23"></line><line x1="8" y1="23" x2="16" y2="23"></line></svg>
+        음성 분석
+      </h2>
+      <div class="audio-analysis">
+        <div class="audio-metrics" id="audioMetrics">
+          <div class="audio-metric">
+            <span class="audio-metric__value" id="audioWpm">142</span>
+            <span class="audio-metric__label">발화 속도</span>
+            <span class="audio-metric__desc">단어/분</span>
+          </div>
+          <div class="audio-metric">
+            <span class="audio-metric__value" id="audioFillers">8</span>
+            <span class="audio-metric__label">추임새 횟수</span>
+            <span class="audio-metric__desc">어, 음, 그</span>
+          </div>
+          <div class="audio-metric">
+            <span class="audio-metric__value" id="audioPause">12%</span>
+            <span class="audio-metric__label">침묵 비율</span>
+            <span class="audio-metric__desc">전체 대비</span>
+          </div>
+          <div class="audio-metric">
+            <span class="audio-metric__value" id="audioVolume">87%</span>
+            <span class="audio-metric__label">음량 일관성</span>
+            <span class="audio-metric__desc">안정도</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Q&A Transcript -->
+    <section class="report-section" aria-labelledby="qaHeading">
+      <h2 class="report-section__heading" id="qaHeading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+        Q&amp;A 기록
+      </h2>
+      <div class="qa-list" id="qaTranscript">
+
+        <details class="qa-item">
+          <summary class="qa-item__toggle">
+            <span class="qa-item__number">Q1</span>
+            <span>이 솔루션의 ROI를 구체적으로 어떻게 측정할 수 있습니까?</span>
+            <svg class="qa-item__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="qa-item__content">
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--question">질문</div>
+              <p class="qa-exchange__text">이 솔루션의 ROI를 구체적으로 어떻게 측정할 수 있습니까? 도입 후 6개월 내에 가시적인 성과를 확인할 수 있을까요?</p>
+            </div>
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--answer">답변</div>
+              <p class="qa-exchange__text">네, 크게 세 가지 지표로 측정합니다. 첫째, 교육 참여율과 완료율 변화. 둘째, 사전-사후 역량 진단 점수 변화. 셋째, 현업 적용도 설문을 통한 행동 변화 추적입니다. 파일럿 도입 기업 3곳에서 평균 23% 역량 향상을 확인했습니다.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-item__toggle">
+            <span class="qa-item__number">Q2</span>
+            <span>경쟁사 대비 차별화 포인트는 무엇인가요?</span>
+            <svg class="qa-item__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="qa-item__content">
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--question">질문</div>
+              <p class="qa-exchange__text">경쟁사 대비 차별화 포인트는 무엇인가요? 시장에 유사한 솔루션이 이미 존재하는데, 왜 이 솔루션을 선택해야 합니까?</p>
+            </div>
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--answer">답변</div>
+              <p class="qa-exchange__text">가장 큰 차별점은 AI 기반 개인 맞춤형 시나리오 생성입니다. 기존 솔루션은 사전 제작된 시나리오에 국한되지만, 저희는 학습자의 직무와 역량 수준에 맞춰 실시간으로 시나리오를 조정합니다.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="qa-item">
+          <summary class="qa-item__toggle">
+            <span class="qa-item__number">Q3</span>
+            <span>데이터 보안은 어떻게 보장하나요?</span>
+            <svg class="qa-item__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          </summary>
+          <div class="qa-item__content">
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--question">질문</div>
+              <p class="qa-exchange__text">직원들의 평가 데이터가 포함되는데, 데이터 보안은 어떻게 보장하나요?</p>
+            </div>
+            <div class="qa-exchange">
+              <div class="qa-exchange__role qa-exchange__role--answer">답변</div>
+              <p class="qa-exchange__text">모든 데이터는 AES-256 암호화로 저장되며, 온프레미스 배포 옵션도 제공합니다. 또한 ISO 27001 인증을 보유하고 있으며, 개인정보 처리 방침은 GDPR 기준을 충족합니다.</p>
+            </div>
+          </div>
+        </details>
+
+      </div>
+    </section>
+
+    <!-- Action Plan -->
+    <section class="report-section" aria-labelledby="actionHeading">
+      <h2 class="report-section__heading" id="actionHeading">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+        실행 계획
+      </h2>
+      <div class="action-plan" id="actionPlan">
+        <ol class="action-plan__list">
+          <li class="action-plan__item">
+            <span class="action-plan__item-num">1</span>
+            <span>Q&amp;A 대응을 위한 예상 질문 리스트를 20개 이상 작성하고, 각 질문에 대한 핵심 답변 프레임을 준비하세요.</span>
+          </li>
+          <li class="action-plan__item">
+            <span class="action-plan__item-num">2</span>
+            <span>발표 파트별 시간 배분표를 작성하고, 타이머를 활용한 연습을 3회 이상 실시하세요.</span>
+          </li>
+          <li class="action-plan__item">
+            <span class="action-plan__item-num">3</span>
+            <span>각 논거 사이의 전환 문장("이것이 중요한 이유는...", "다음으로 연결되는 것은...")을 미리 작성해두세요.</span>
+          </li>
+          <li class="action-plan__item">
+            <span class="action-plan__item-num">4</span>
+            <span>녹음/녹화를 통해 자신의 발표를 객관적으로 분석하고, 추임새 빈도를 의식적으로 줄이세요.</span>
+          </li>
+          <li class="action-plan__item">
+            <span class="action-plan__item-num">5</span>
+            <span>다음 시뮬레이션에서 동일 시나리오를 재도전하여 개선도를 측정하세요.</span>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- Report Actions -->
+    <div class="report-actions">
+      <button type="button" class="btn btn-primary btn-lg" id="btnPdf" aria-label="PDF로 다운로드">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+        PDF 다운로드
+      </button>
+      <button type="button" class="btn btn-secondary btn-lg" id="btnRetry" aria-label="다시 도전하기">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="23 4 23 10 17 10"></polyline><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path></svg>
+        다시 도전하기
+      </button>
+    </div>
+  </main>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- Theme Script -->
+  <script src="js/theme.js"></script>
+</body>
+</html>

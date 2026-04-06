@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>발표 시뮬레이션</title>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/presentation.css">
+</head>
+<body>
+
+  <!-- ── Top Bar ── -->
+  <header class="top-bar" role="banner">
+    <div class="top-bar__left">
+      <a href="index.html" class="top-bar__back" aria-label="목록으로 돌아가기">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <path d="M12.5 15L7.5 10L12.5 5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <div class="top-bar__scenario">
+        <span class="top-bar__label">시나리오</span>
+        <h1 class="top-bar__title" id="scenarioTitle">신규 사업 전략 보고</h1>
+      </div>
+    </div>
+
+    <div class="top-bar__center">
+      <div class="phase-indicator" id="phaseIndicator" role="status" aria-live="polite">
+        <span class="phase-indicator__dot"></span>
+        <span class="phase-indicator__text">발표 중</span>
+      </div>
+    </div>
+
+    <div class="top-bar__right">
+      <div class="top-bar__timer" id="presentationTimer" role="timer" aria-label="남은 시간">
+        <svg class="timer-icon" width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <circle cx="9" cy="9" r="7.5" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M9 5V9L11.5 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+        <span class="timer-display" id="timerDisplay">10:00</span>
+      </div>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 변경">&#9728;</button>
+    </div>
+  </header>
+
+  <!-- ══════════════════════════════════════════════════
+       MODE 1: PRESENTATION — Stage / Podium
+       ══════════════════════════════════════════════════ -->
+  <main class="presentation-stage" id="presentationMode" role="main">
+
+    <!-- Stage ambient layers -->
+    <div class="stage__ambient" aria-hidden="true">
+      <div class="stage__spotlight stage__spotlight--left"></div>
+      <div class="stage__spotlight stage__spotlight--center"></div>
+      <div class="stage__spotlight stage__spotlight--right"></div>
+      <div class="stage__grain"></div>
+    </div>
+
+    <!-- Presentation content area -->
+    <section class="stage__content">
+      <div class="script-display" id="scriptDisplay" aria-label="발표 원고">
+        <div class="script-display__header">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+            <rect x="2" y="2" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.2"/>
+            <path d="M5 6H11M5 8.5H9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+          </svg>
+          <span>발표 원고</span>
+        </div>
+        <div class="script-display__body" id="scriptBody">
+          <p>안녕하십니까. 오늘 신규 사업 전략에 대해 보고드리겠습니다.</p>
+          <p>시장 환경 분석 결과, 디지털 전환 가속화에 따라 AI 기반 교육 솔루션의 수요가 전년 대비 47% 증가하였습니다.</p>
+          <p>이에 당사는 세 가지 핵심 전략을 제안드립니다...</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audio Recording Controls -->
+    <section class="recording-controls" aria-label="음성 녹음">
+
+      <!-- Waveform Visualization -->
+      <div class="waveform" id="audioWaveform" aria-hidden="true">
+        <div class="waveform__bar" style="--i:0"></div>
+        <div class="waveform__bar" style="--i:1"></div>
+        <div class="waveform__bar" style="--i:2"></div>
+        <div class="waveform__bar" style="--i:3"></div>
+        <div class="waveform__bar" style="--i:4"></div>
+        <div class="waveform__bar" style="--i:5"></div>
+        <div class="waveform__bar" style="--i:6"></div>
+        <div class="waveform__bar" style="--i:7"></div>
+        <div class="waveform__bar" style="--i:8"></div>
+        <div class="waveform__bar" style="--i:9"></div>
+        <div class="waveform__bar" style="--i:10"></div>
+        <div class="waveform__bar" style="--i:11"></div>
+        <div class="waveform__bar" style="--i:12"></div>
+        <div class="waveform__bar" style="--i:13"></div>
+        <div class="waveform__bar" style="--i:14"></div>
+        <div class="waveform__bar" style="--i:15"></div>
+        <div class="waveform__bar" style="--i:16"></div>
+        <div class="waveform__bar" style="--i:17"></div>
+        <div class="waveform__bar" style="--i:18"></div>
+        <div class="waveform__bar" style="--i:19"></div>
+        <div class="waveform__bar" style="--i:20"></div>
+        <div class="waveform__bar" style="--i:21"></div>
+        <div class="waveform__bar" style="--i:22"></div>
+        <div class="waveform__bar" style="--i:23"></div>
+      </div>
+
+      <!-- Recording status -->
+      <div class="recording-status" id="recordingStatus" aria-live="polite">
+        <span class="recording-status__label">대기 중</span>
+        <span class="recording-status__time" id="recordingTime">00:00 / 10:00</span>
+      </div>
+
+      <!-- Control buttons -->
+      <div class="recording-actions">
+        <button class="record-btn" id="recordBtn" type="button" aria-label="녹음 시작">
+          <span class="record-btn__ring record-btn__ring--outer" aria-hidden="true"></span>
+          <span class="record-btn__ring record-btn__ring--inner" aria-hidden="true"></span>
+          <span class="record-btn__core" aria-hidden="true">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2C10.34 2 9 3.34 9 5V12C9 13.66 10.34 15 12 15C13.66 15 15 13.66 15 12V5C15 3.34 13.66 2 12 2Z" fill="currentColor"/>
+              <path d="M17 12C17 14.76 14.76 17 12 17C9.24 17 7 14.76 7 12H5C5 15.53 7.61 18.43 11 18.92V22H13V18.92C16.39 18.43 19 15.53 19 12H17Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="sr-only">녹음</span>
+        </button>
+
+        <button class="control-btn control-btn--stop" id="stopBtn" type="button" aria-label="녹음 중지" disabled>
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <rect x="4" y="4" width="12" height="12" rx="2" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Playback controls (hidden until recording complete) -->
+      <div class="playback-controls" id="playbackControls" hidden aria-label="녹음 재생">
+        <button class="control-btn control-btn--play" id="playBtn" type="button" aria-label="재생">
+          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+            <path d="M6 3.5L16 10L6 16.5V3.5Z" fill="currentColor"/>
+          </svg>
+        </button>
+        <div class="playback-progress">
+          <div class="playback-progress__track">
+            <div class="playback-progress__fill" id="playbackFill" style="width: 0%"></div>
+            <input type="range" class="playback-progress__slider" id="playbackSlider" min="0" max="100" value="0" aria-label="재생 위치">
+          </div>
+          <div class="playback-progress__times">
+            <span id="playbackCurrent">00:00</span>
+            <span id="playbackTotal">00:00</span>
+          </div>
+        </div>
+        <button class="control-btn control-btn--re-record" id="reRecordBtn" type="button" aria-label="다시 녹음">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path d="M3 9C3 5.69 5.69 3 9 3C11.22 3 13.15 4.26 14.12 6.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M15 9C15 12.31 12.31 15 9 15C6.78 15 4.85 13.74 3.88 11.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <path d="M14 3V6.12H10.88" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4 15V11.88H7.12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </div>
+    </section>
+
+    <!-- Advance to Q&A -->
+    <div class="stage__advance">
+      <button class="btn btn-primary btn-lg advance-btn" id="advanceToQA" type="button">
+        <span>발표 완료</span>
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+          <path d="M3.75 9H14.25M9.75 4.5L14.25 9L9.75 13.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span class="advance-btn__sub">Q&A 시작</span>
+      </button>
+    </div>
+  </main>
+
+  <!-- ══════════════════════════════════════════════════
+       MODE 2: Q&A — Boardroom
+       ══════════════════════════════════════════════════ -->
+  <main class="qa-boardroom" id="qaMode" hidden role="main">
+
+    <div class="qa-layout">
+
+      <!-- Left: Audience Panel -->
+      <aside class="audience-panel" id="audiencePanel" aria-label="AI 청중">
+        <div class="audience-panel__header">
+          <h2 class="audience-panel__title">청중</h2>
+          <span class="audience-panel__count" id="audienceCount">4명</span>
+        </div>
+        <ul class="audience-list" role="list">
+          <li class="audience-member" data-member="kim" role="listitem">
+            <div class="audience-member__avatar">
+              <span class="audience-member__emoji" aria-hidden="true">&#x1F468;&#x200D;&#x1F4BC;</span>
+              <span class="audience-member__speaking-dot" aria-hidden="true"></span>
+            </div>
+            <div class="audience-member__info">
+              <span class="audience-member__name">김 상무</span>
+              <span class="audience-member__role">경영전략실</span>
+            </div>
+            <span class="audience-member__status" aria-label="대기 중">
+              <span class="sr-only">대기 중</span>
+            </span>
+          </li>
+          <li class="audience-member" data-member="park" role="listitem">
+            <div class="audience-member__avatar">
+              <span class="audience-member__emoji" aria-hidden="true">&#x1F469;&#x200D;&#x1F4BC;</span>
+              <span class="audience-member__speaking-dot" aria-hidden="true"></span>
+            </div>
+            <div class="audience-member__info">
+              <span class="audience-member__name">박 이사</span>
+              <span class="audience-member__role">재무기획팀</span>
+            </div>
+            <span class="audience-member__status" aria-label="대기 중">
+              <span class="sr-only">대기 중</span>
+            </span>
+          </li>
+          <li class="audience-member" data-member="lee" role="listitem">
+            <div class="audience-member__avatar">
+              <span class="audience-member__emoji" aria-hidden="true">&#x1F468;&#x200D;&#x1F52C;</span>
+              <span class="audience-member__speaking-dot" aria-hidden="true"></span>
+            </div>
+            <div class="audience-member__info">
+              <span class="audience-member__name">이 부장</span>
+              <span class="audience-member__role">기술연구소</span>
+            </div>
+            <span class="audience-member__status" aria-label="대기 중">
+              <span class="sr-only">대기 중</span>
+            </span>
+          </li>
+          <li class="audience-member" data-member="choi" role="listitem">
+            <div class="audience-member__avatar">
+              <span class="audience-member__emoji" aria-hidden="true">&#x1F469;&#x200D;&#x2696;&#xFE0F;</span>
+              <span class="audience-member__speaking-dot" aria-hidden="true"></span>
+            </div>
+            <div class="audience-member__info">
+              <span class="audience-member__name">최 팀장</span>
+              <span class="audience-member__role">법무팀</span>
+            </div>
+            <span class="audience-member__status" aria-label="대기 중">
+              <span class="sr-only">대기 중</span>
+            </span>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Center: Chat Interface -->
+      <section class="qa-chat" aria-label="Q&A 대화">
+        <div class="qa-chat__messages" id="qaMessages" role="log" aria-live="polite" aria-relevant="additions">
+
+          <!-- System message -->
+          <div class="qa-msg qa-msg--system">
+            <p>Q&A가 시작되었습니다. 청중의 질문에 답변해 주세요.</p>
+          </div>
+
+          <!-- AI audience question (sample) -->
+          <div class="qa-msg qa-msg--audience">
+            <div class="qa-msg__badge">
+              <span class="qa-msg__emoji" aria-hidden="true">&#x1F468;&#x200D;&#x1F4BC;</span>
+              <div class="qa-msg__author">
+                <span class="qa-msg__name">김 상무</span>
+                <span class="qa-msg__dept">경영전략실</span>
+              </div>
+            </div>
+            <div class="qa-msg__bubble">
+              <p>시장 점유율 47% 성장이라고 하셨는데, 그 수치의 출처와 당사 제품과의 적합성을 좀 더 구체적으로 설명해 주시겠습니까?</p>
+            </div>
+            <time class="qa-msg__time">방금</time>
+          </div>
+
+          <!-- Learner answer (sample) -->
+          <div class="qa-msg qa-msg--learner">
+            <div class="qa-msg__bubble">
+              <p>네, 해당 수치는 가트너 2025 보고서를 기반으로 하였으며, 특히 국내 HRD 시장에 한정하면 약 62%까지 상승합니다.</p>
+            </div>
+            <time class="qa-msg__time">방금</time>
+          </div>
+
+        </div>
+
+        <!-- Input area -->
+        <div class="qa-chat__input-area">
+          <div class="qa-input-wrap">
+            <label for="qaInput" class="sr-only">답변 입력</label>
+            <textarea
+              class="qa-input"
+              id="qaInput"
+              placeholder="답변을 입력하세요..."
+              rows="1"
+              aria-label="답변 입력"
+            ></textarea>
+            <div class="qa-input-actions">
+              <button class="qa-voice-btn" id="qaVoiceBtn" type="button" aria-label="음성으로 답변">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M9 1.5C7.76 1.5 6.75 2.51 6.75 3.75V9C6.75 10.24 7.76 11.25 9 11.25C10.24 11.25 11.25 10.24 11.25 9V3.75C11.25 2.51 10.24 1.5 9 1.5Z" fill="currentColor"/>
+                  <path d="M12.75 9C12.75 11.07 11.07 12.75 9 12.75C6.93 12.75 5.25 11.07 5.25 9H3.75C3.75 11.65 5.71 13.82 8.25 14.19V16.5H9.75V14.19C12.29 13.82 14.25 11.65 14.25 9H12.75Z" fill="currentColor"/>
+                </svg>
+              </button>
+              <button class="qa-send-btn" id="qaSendBtn" type="button" aria-label="답변 전송">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+                  <path d="M2.25 15.75L15.75 9L2.25 2.25V7.5L11.25 9L2.25 10.5V15.75Z" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Right: Session Info Panel -->
+      <aside class="session-panel" aria-label="세션 정보">
+        <div class="session-stat">
+          <div class="session-stat__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <circle cx="10" cy="10" r="8" stroke="currentColor" stroke-width="1.5"/>
+              <path d="M10 6V10L12.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="session-stat__content">
+            <span class="session-stat__label">남은 시간</span>
+            <span class="session-stat__value" id="qaTimer">05:00</span>
+          </div>
+        </div>
+        <div class="session-stat">
+          <div class="session-stat__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M3 5H17M3 10H17M3 15H12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="session-stat__content">
+            <span class="session-stat__label">질문 턴</span>
+            <span class="session-stat__value" id="turnCount">1 / 5</span>
+          </div>
+        </div>
+        <div class="session-stat">
+          <div class="session-stat__icon" aria-hidden="true">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+              <path d="M10 2L12.09 7.26L17.82 7.64L13.46 11.34L14.82 16.94L10 13.77L5.18 16.94L6.54 11.34L2.18 7.64L7.91 7.26L10 2Z" stroke="currentColor" stroke-width="1.5" fill="none"/>
+            </svg>
+          </div>
+          <div class="session-stat__content">
+            <span class="session-stat__label">남은 질문</span>
+            <span class="session-stat__value" id="remainingQuestions">4개</span>
+          </div>
+        </div>
+
+        <div class="session-divider" aria-hidden="true"></div>
+
+        <div class="session-tips">
+          <h3 class="session-tips__title">답변 요령</h3>
+          <ul class="session-tips__list">
+            <li>구체적인 수치와 근거를 제시하세요</li>
+            <li>질문 의도를 파악하고 핵심부터 답변하세요</li>
+            <li>모르는 내용은 솔직하게 인정하세요</li>
+          </ul>
+        </div>
+
+        <button class="btn btn-lg end-session-btn" id="endSessionBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
+            <rect x="3" y="3" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/>
+            <path d="M7 7L11 11M11 7L7 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          </svg>
+          발표 종료
+        </button>
+      </aside>
+
+    </div>
+  </main>
+
+  <!-- ── Toast Container ── -->
+  <div class="toast-container" id="toastContainer" aria-live="assertive" aria-atomic="true"></div>
+
+  <!-- ── Scripts ── -->
+  <script src="js/theme.js"></script>
+
+</body>
+</html>
