@@ -35,24 +35,8 @@
       var titleEl = document.getElementById('scenarioTitle');
       if (titleEl && data.background) titleEl.textContent = data.background.situation ? data.background.companyName || '' : '';
 
-      // 자료 탭 내용 채우기
-      var panels = {
-        market: document.getElementById('panelMarket'),
-        finance: document.getElementById('panelFinance'),
-        org: document.getElementById('panelOrg'),
-        competitor: document.getElementById('panelCompetitor'),
-      };
-      var matMap = { market: 'market', finance: 'financial', org: 'organization', competitor: 'competitor' };
-
-      for (var tabKey in panels) {
-        var panel = panels[tabKey];
-        if (!panel) continue;
-        var mat = state.materials[matMap[tabKey] || tabKey];
-        if (mat) {
-          var contentDiv = panel.querySelector('.materials-content') || panel;
-          contentDiv.innerHTML = '<div class="materials-title">' + (mat.title || '') + '</div><div class="materials-body">' + (mat.content || '').replace(/\n/g, '<br>') + '</div>';
-        }
-      }
+      // 자료 데이터만 state에 저장 — 기안84가 만든 HTML은 유지
+      // API 자료는 시나리오별 동적 콘텐츠에만 사용
 
       startTimer();
     } catch (e) {

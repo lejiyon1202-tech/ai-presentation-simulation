@@ -25,48 +25,26 @@
     try {
       var resp = await fetch('/api/scenarios');
       var data = await resp.json();
-      var grid = document.getElementById('scenarioGrid');
-      if (!grid) return;
-      grid.innerHTML = '';
 
+      // API에서 시나리오 데이터 로드
       for (var setId in data) {
         var set = data[setId];
-        var scenarios = set.scenarios || [];
-        state.scenarios = scenarios;
+        state.scenarios = set.scenarios || [];
         state.selectedSetId = setId;
-
-        scenarios.forEach(function (s) {
-          var card = document.createElement('div');
-          card.className = 'scenario-card';
-          card.setAttribute('role', 'option');
-          card.setAttribute('tabindex', '0');
-          card.setAttribute('aria-selected', 'false');
-          card.setAttribute('data-scenario', s.id);
-
-          var stars = '';
-          for (var i = 0; i < (s.difficulty && s.difficulty.stars || 3); i++) stars += '\u2605';
-
-          card.innerHTML =
-            '<div class="scenario-card-header">' +
-              '<h3 class="scenario-card-title">' + escapeHtml(s.title) + '</h3>' +
-              '<span class="scenario-card-badge" style="background:' + (s.difficulty && s.difficulty.color || '#f59e0b') + '">' +
-                escapeHtml(s.difficulty && s.difficulty.label || '') +
-              '</span>' +
-            '</div>' +
-            '<p class="scenario-card-desc">' + escapeHtml((s.background && s.background.situation || '').substring(0, 120)) + '...</p>' +
-            '<div class="scenario-card-meta">' +
-              '<span>' + stars + '</span>' +
-              '<span>' + (s.estimatedMinutes || 60) + '\uBD84</span>' +
-              '<span>AI \uCCAD\uC911 ' + (s.audience && s.audience.length || 3) + '\uBA85</span>' +
-            '</div>';
-
-          card.addEventListener('click', function () { selectScenario(s, card); });
-          card.addEventListener('keydown', function (e) {
-            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectScenario(s, card); }
-          });
-          grid.appendChild(card);
-        });
       }
+
+      // 기존 HTML 카드에 클릭 이벤트 바인딩 (기안84 디자인 유지)
+      var cards = document.querySelectorAll('.scenario-card');
+      cards.forEach(function (card, idx) {
+        var scenario = state.scenarios[idx];
+        if (scenario) {
+          card.setAttribute('data-scenario', scenario.id);
+          card.addEventListener('click', function () { selectScenario(scenario, card); });
+          card.addEventListener('keydown', function (e) {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectScenario(scenario, card); }
+          });
+        }
+      });
     } catch (e) {
       console.error('[index] loadScenarios:', e);
       showToast('\uC2DC\uB098\uB9AC\uC624 \uB85C\uB4DC\uC5D0 \uC2E4\uD328\uD588\uC2B5\uB2C8\uB2E4.', 'error');
